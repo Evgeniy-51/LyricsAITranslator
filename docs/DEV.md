@@ -1,3 +1,5 @@
+[English version](DEV_EN.md)
+
 ## Архитектура
 
 ```
@@ -218,4 +220,4 @@ GUID’ы Preferences: `guids.h`.
 
 ## Документы для пользователя
 
-См. [USER.md](USER.md) и корневой [README.md](../README.md).
+См. [USER.md](USER.md) / [USER_EN.md](USER_EN.md) и корневые [README.md](../README.md) / [README_EN.md](../README_EN.md).

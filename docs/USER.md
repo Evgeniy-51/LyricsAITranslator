@@ -1,5 +1,7 @@
 # Руководство пользователя
 
+[English version](USER_EN.md)
+
 Плагин **Lyrics AI Translator** для foobar2000 v2 (**32-bit или 64-bit** — версия пакета должен совпадать с foobar).
 
 ## Что умеет
