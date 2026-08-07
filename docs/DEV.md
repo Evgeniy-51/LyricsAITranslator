@@ -164,8 +164,8 @@ build-release.bat x64 smoke
 | `sync` | Git remote, PAT, branch, pullOnStartup, autoSetup; `repoDir` при Apply из Preferences = cacheDir |
 | `web` | enabled, host, port, authToken (пустой = без защиты), updateIntervalMs |
 
-Пустой `web.authToken`: сервер не требует query/cookie.  
-Непустой: браузерные ручки проверяют `?token=` (и заготовку cookie `lyrics_token`, если когда-нибудь выставят).
+Пустой `web.authToken`: аутентификация отключена — `/`, `/api/state` (GET) и SSE доступны без токена.  
+Непустой: браузерные эндпоинты принимают токен через query `?token=…` или cookie `lyrics_token`. Loopback API плагина (`POST /api/state`, poll highlight/player) auth не требует.
 
 ---
 
