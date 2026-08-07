@@ -1,0 +1,62 @@
+# --- Secrets / local config (keep config.example.json) ---
+**/config.json
+config.test.json
+run-config.json
+
+# --- Build outputs (C++ / Go / package) ---
+*.dll
+*.exe
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.obj
+*.iobj
+*.ipdb
+*.idb
+*.res
+*.fb2k-component
+*.zip
+
+dist/
+out/
+temp/
+Release/
+Release FB2K/
+Debug/
+Win32/
+x86/
+x64/
+ipch/
+
+# MSVC / VS per-project intermediates
+**/Release/
+**/Debug/
+**/*.tlog/
+*.Build.CppClean.log
+*.recipe
+*.lastbuildstate
+*.vcxproj.user
+*.suo
+*.user
+*.aps
+*.VC.db
+*.VC.db-shm
+*.VC.db-wal
+*.opendb
+*.sdf
+.vs/
+
+# Go
+**/vendor/
+*.test
+*.exe~
+
+# OS / editor junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+*~
+*.swp
+*.tmp
+tmp/

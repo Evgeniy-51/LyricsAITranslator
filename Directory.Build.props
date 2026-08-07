@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- VS 2026 (v18) ships v145, not v142/v143. Override SDK toolset for command-line builds. -->
+<Project>
+  <PropertyGroup>
+    <PlatformToolset Condition="'$(PlatformToolset)' == 'v142' or '$(PlatformToolset)' == 'v143' or '$(PlatformToolset)' == 'v141'">v145</PlatformToolset>
+  </PropertyGroup>
+</Project>

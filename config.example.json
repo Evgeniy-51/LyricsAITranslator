@@ -1,0 +1,42 @@
+{
+  "track": {
+    "artist": "U2",
+    "title": "One",
+    "album": "Achtung Baby"
+  },
+  "cacheDir": "temp",
+  "llm": {
+    "baseUrl": "https://api.openai.com/v1",
+    "model": "gpt-4o-mini",
+    "apiKey": "YOUR_API_KEY"
+  },
+  "proxy": {
+    "enabled": true,
+    "type": "socks5",
+    "url": "127.0.0.1",
+    "port": "1080",
+    "user": "",
+    "password": ""
+  },
+  "targetLang": "Русский",
+  "enableTranslation": true,
+  "timeoutSec": 120,
+  "sync": {
+    "enabled": false,
+    "autoSetup": true,
+    "pullOnStartup": true,
+    "startupDelayMs": 3000,
+    "repoDir": "temp",
+    "remoteUrl": "",
+    "pat": "",
+    "branch": "main",
+    "gitPath": "git"
+  },
+  "web": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 8765,
+    "authToken": "",
+    "updateIntervalMs": 500
+  }
+}

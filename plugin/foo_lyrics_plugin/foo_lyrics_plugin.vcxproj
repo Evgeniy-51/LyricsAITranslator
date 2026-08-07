@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C8E4F1A2-3B5D-4E6F-9A0B-1C2D3E4F5A6B}</ProjectGuid>
+    <RootNamespace>lyrics_ai_translator</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)..\..\out\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    <TargetName>foo_lyrics_ai_translator</TargetName>
+    <LyricsSmokeBuild Condition="'$(LyricsSmokeBuild)' == ''">false</LyricsSmokeBuild>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>..\..\..\SDK-2025-03-07\foobar2000;..\..\..\SDK-2025-03-07</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>..\..\..\SDK-2025-03-07\foobar2000\shared\shared-Win32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>..\..\..\SDK-2025-03-07\foobar2000;..\..\..\SDK-2025-03-07</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>NDEBUG;_WINDLL;FOOBAR2000_TARGET_VERSION=81;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>..\..\..\SDK-2025-03-07\foobar2000\shared\shared-Win32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>..\..\..\SDK-2025-03-07\foobar2000;..\..\..\SDK-2025-03-07</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>..\..\..\SDK-2025-03-07\foobar2000\shared\shared-x64.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>..\..\..\SDK-2025-03-07\foobar2000;..\..\..\SDK-2025-03-07</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>NDEBUG;_WINDLL;FOOBAR2000_TARGET_VERSION=81;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>..\..\..\SDK-2025-03-07\foobar2000\shared\shared-x64.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="cache_reader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="initquit.cpp" />
+    <ClCompile Include="lyrics_window.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainmenu.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="preferences.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="target_languages.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="json_helpers.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="plugin_config.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="worker_launcher.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="git_sync.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="web_server_launcher.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="web_state_publisher.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release' and '$(LyricsSmokeBuild)'=='true'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cache_reader.h" />
+    <ClInclude Include="guids.h" />
+    <ClInclude Include="lyrics_window.h" />
+    <ClInclude Include="json_helpers.h" />
+    <ClInclude Include="plugin_config.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="target_languages.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="worker_launcher.h" />
+    <ClInclude Include="git_sync.h" />
+    <ClInclude Include="web_server_launcher.h" />
+    <ClInclude Include="web_state_publisher.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="foo_lyrics_plugin.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SDK-2025-03-07\libPPUI\libPPUI.vcxproj">
+      <Project>{7729eb82-4069-4414-964b-ad399091a03f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-2025-03-07\pfc\pfc.vcxproj">
+      <Project>{ebfffb4e-261d-44d3-b89c-957b31a0bf9c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-2025-03-07\foobar2000\foobar2000_component_client\foobar2000_component_client.vcxproj">
+      <Project>{71ad2674-065b-48f5-b8b0-e1f9d3892081}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-2025-03-07\foobar2000\helpers\foobar2000_sdk_helpers.vcxproj">
+      <Project>{ee47764e-a202-4f85-a767-abdab4aff35f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-2025-03-07\foobar2000\SDK\foobar2000_SDK.vcxproj">
+      <Project>{e8091321-d79d-4575-86ef-064ea1a4a20d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

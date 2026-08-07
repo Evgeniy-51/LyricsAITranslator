@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyrics</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #121212;
+      color: #e8e8e8;
+      min-height: 100vh;
+      padding-bottom: 72px;
+    }
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #2a2a2a;
+      position: sticky;
+      top: 0;
+      background: #121212;
+      z-index: 1;
+    }
+    h1 { margin: 0 0 4px; font-size: 1.25rem; font-weight: 600; }
+    .meta { color: #9a9a9a; font-size: 0.9rem; }
+    .status { margin-top: 8px; font-size: 0.85rem; color: #b0b0b0; }
+    #lyrics {
+      padding: 12px 20px 72px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .line {
+      padding: 10px 0;
+      border-bottom: 1px solid #1e1e1e;
+      line-height: 1.45;
+      scroll-margin-top: 120px;
+    }
+    .line.active .orig { color: #ffec40; }
+    .line.active .trans { color: #dcc846; }
+    .orig { font-size: 1.05rem; }
+    .trans {
+      margin-top: 4px;
+      font-size: 0.95rem;
+      color: #8a8a8a;
+    }
+    .empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #888;
+    }
+    .warn { color: #c9a227; }
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .header-text { flex: 1; min-width: 0; }
+    .sync-btn {
+      flex-shrink: 0;
+      margin-top: 2px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(232, 232, 232, 0.28);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e8e8e8;
+      cursor: pointer;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .sync-btn.on { display: inline-flex; }
+    .sync-btn.off {
+      display: inline-flex;
+      color: #e04545;
+      border-color: rgba(224, 69, 69, 0.45);
+      background: rgba(224, 69, 69, 0.12);
+      text-decoration: line-through;
+    }
+    .sync-btn:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+    .player-controls {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+      border-top: 1px solid #2a2a2a;
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(10px);
+    }
+    .player-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      height: 44px;
+      border: 1px solid rgba(232, 232, 232, 0.24);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e8e8e8;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 650;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .player-btn.icon {
+      width: 44px;
+      padding: 0;
+    }
+    .player-btn.icon svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+    .player-btn.text {
+      min-width: 48px;
+      padding: 0 10px;
+    }
+    .player-btn.primary {
+      background: rgba(255, 236, 64, 0.16);
+      border-color: rgba(255, 236, 64, 0.42);
+      color: #ffec40;
+    }
+    .player-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <div class="header-text">
+        <h1 id="title">Lyrics</h1>
+        <div class="meta" id="meta"></div>
+        <div class="status" id="status">Connecting…</div>
+      </div>
+      <button type="button" id="syncBtn" class="sync-btn" hidden
+        aria-label="Toggle synced highlight and auto-scroll">Sync</button>
+    </div>
+  </header>
+  <div id="lyrics" class="empty">Waiting for playback…</div>
+  <nav class="player-controls" aria-label="Player controls">
+    <button type="button" class="player-btn icon" data-command="prev" aria-label="Previous track">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 6h2v12H6V6zm3.5 6 8.5 6V6l-8.5 6z"/></svg>
+    </button>
+    <button type="button" class="player-btn text" data-command="seekBack" aria-label="Seek back 10 seconds">-10s</button>
+    <button type="button" class="player-btn icon primary" id="playPauseBtn" data-command="playPause" aria-label="Play">
+      <svg id="playPauseIcon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button type="button" class="player-btn text" data-command="seekForward" aria-label="Seek forward 10 seconds">+10s</button>
+    <button type="button" class="player-btn icon" data-command="next" aria-label="Next track">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 18h2V6h-2v12zm-3.5-6L4 6v12l8.5-6z"/></svg>
+    </button>
+  </nav>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token') || '';
+    const api = (path) => {
+      const u = new URL(path, location.origin);
+      if (token) u.searchParams.set('token', token);
+      return u.toString();
+    };
+
+    let lastTrackKey = '';
+    let lastHasSync = false;
+    let lastHighlightEnabled = true;
+    let highlightToggleInFlight = false;
+    let playerCommandInFlight = false;
+
+    function trackKey(t) {
+      return [t.artist || '', t.album || '', t.title || ''].join('\0');
+    }
+
+    const playIconPath = 'M8 5v14l11-7z';
+    const pauseIconPath = 'M6 19h4V5H6v14zm8 0h4V5h-4v14z';
+
+    function updatePlayPauseIcon(pb) {
+      const btn = document.getElementById('playPauseBtn');
+      const icon = document.getElementById('playPauseIcon');
+      if (!btn || !icon) return;
+      const playing = pb.isPlaying && !pb.isPaused;
+      icon.innerHTML = '<path fill="currentColor" d="' + (playing ? pauseIconPath : playIconPath) + '"/>';
+      btn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    }
+
+    function shouldScrollToActive(lines, active, pb, highlightEnabled) {
+      if (!highlightEnabled) return false;
+      if (!pb.isPlaying && !pb.isPaused) return false;
+      if (active < 0) return false;
+      const posMs = (pb.positionSec || 0) * 1000;
+      const ln = lines.find((l) => l.index === active);
+      if (!ln) return false;
+      if (ln.timeMs != null && ln.timeMs > 0) return posMs >= ln.timeMs - 300;
+      return posMs > 1.0;
+    }
+
+    function render(s) {
+      const t = s.track || {};
+      const tk = trackKey(t);
+      const trackChanged = tk !== lastTrackKey;
+      if (trackChanged) lastTrackKey = tk;
+
+      const title = document.getElementById('title');
+      const meta = document.getElementById('meta');
+      const status = document.getElementById('status');
+      const box = document.getElementById('lyrics');
+      const artist = t.artist || '';
+      const album = t.album || '';
+      title.textContent = t.title || 'Lyrics';
+      meta.textContent = [artist, album].filter(Boolean).join(' · ');
+      const pb = s.playback || {};
+      let st = s.status || '';
+      if (pb.isPlaying) st += (st ? ' · ' : '') + 'Playing';
+      else if (pb.isPaused) st += (st ? ' · ' : '') + 'Paused';
+      const hasSync = s.lyrics && s.lyrics.hasSync;
+      const highlightEnabled = hasSync && s.lyrics.highlightEnabled !== false;
+      if (!hasSync) st += (st ? ' · ' : '') + 'no sync';
+      else if (!highlightEnabled) st += (st ? ' · ' : '') + 'manual scroll';
+      if (s.message) st = s.message;
+      status.textContent = st || '—';
+      status.className = 'status' + ((!hasSync || !highlightEnabled) ? ' warn' : '');
+      updatePlayPauseIcon(pb);
+
+      const syncBtn = document.getElementById('syncBtn');
+      if (hasSync) {
+        lastHasSync = true;
+        lastHighlightEnabled = highlightEnabled;
+        syncBtn.hidden = false;
+        syncBtn.disabled = highlightToggleInFlight;
+        syncBtn.className = 'sync-btn ' + (highlightEnabled ? 'on' : 'off');
+        syncBtn.title = highlightEnabled
+          ? 'Auto-scroll and highlight (click to disable)'
+          : 'Manual scroll — highlight off (click to enable)';
+      } else {
+        lastHasSync = false;
+        syncBtn.hidden = true;
+        syncBtn.className = 'sync-btn';
+        syncBtn.title = '';
+      }
+
+      const lines = (s.lyrics && s.lyrics.lines) ? s.lyrics.lines : [];
+      if (!lines.length) {
+        box.className = 'empty';
+        box.textContent = s.message || 'No lyrics yet';
+        window.scrollTo(0, 0);
+        return;
+      }
+      const savedScrollY = window.scrollY;
+      box.className = '';
+      box.innerHTML = '';
+      const active = highlightEnabled ? s.lyrics.activeLine : -1;
+      lines.forEach((ln) => {
+        const div = document.createElement('div');
+        div.className = 'line' + (highlightEnabled && ln.index === active ? ' active' : '');
+        div.id = 'line-' + ln.index;
+        const o = document.createElement('div');
+        o.className = 'orig';
+        o.textContent = ln.original || '';
+        div.appendChild(o);
+        if (ln.translation) {
+          const tr = document.createElement('div');
+          tr.className = 'trans';
+          tr.textContent = ln.translation;
+          div.appendChild(tr);
+        }
+        box.appendChild(div);
+      });
+      const follow = shouldScrollToActive(lines, active, pb, highlightEnabled);
+      if (follow) {
+        const el = document.getElementById('line-' + active);
+        if (el) el.scrollIntoView({ block: 'center', behavior: trackChanged ? 'auto' : 'smooth' });
+      } else if (trackChanged) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      } else {
+        window.scrollTo(0, savedScrollY);
+      }
+    }
+
+    async function toggleHighlight() {
+      if (!lastHasSync || highlightToggleInFlight) return;
+      const next = !lastHighlightEnabled;
+      highlightToggleInFlight = true;
+      const syncBtn = document.getElementById('syncBtn');
+      if (syncBtn) syncBtn.disabled = true;
+      try {
+        const r = await fetch(api('/api/highlight'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled: next }),
+        });
+        if (!r.ok) throw new Error('highlight ' + r.status);
+      } catch (_) {
+        document.getElementById('status').textContent = 'Could not toggle highlight';
+      } finally {
+        highlightToggleInFlight = false;
+        if (syncBtn) syncBtn.disabled = false;
+      }
+    }
+
+    document.getElementById('syncBtn').addEventListener('click', toggleHighlight);
+
+    async function sendPlayerCommand(command) {
+      if (playerCommandInFlight) return;
+      playerCommandInFlight = true;
+      const buttons = Array.from(document.querySelectorAll('.player-btn'));
+      buttons.forEach((btn) => { btn.disabled = true; });
+      try {
+        const r = await fetch(api('/api/player'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command }),
+        });
+        if (!r.ok) throw new Error('player ' + r.status);
+      } catch (_) {
+        document.getElementById('status').textContent = 'Could not control player';
+      } finally {
+        playerCommandInFlight = false;
+        buttons.forEach((btn) => { btn.disabled = false; });
+      }
+    }
+
+    document.querySelectorAll('.player-btn').forEach((btn) => {
+      btn.addEventListener('click', () => sendPlayerCommand(btn.dataset.command));
+    });
+
+    async function loadState() {
+      const r = await fetch(api('/api/state'));
+      if (!r.ok) throw new Error('state ' + r.status);
+      render(await r.json());
+    }
+
+    function connectSSE() {
+      const es = new EventSource(api('/events'));
+      es.onmessage = (ev) => {
+        try { render(JSON.parse(ev.data)); } catch (_) {}
+      };
+      es.onerror = () => {
+        document.getElementById('status').textContent = 'Reconnecting…';
+        es.close();
+        setTimeout(connectSSE, 2000);
+      };
+    }
+
+    loadState().then(connectSSE).catch(() => {
+      document.getElementById('status').textContent = 'Cannot load state';
+    });
+  </script>
+</body>
+</html>
