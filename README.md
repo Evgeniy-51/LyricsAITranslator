@@ -1,4 +1,4 @@
-# Lyrics AI Translator
+# Lyrics AI Translator (MVP)
 
 [English](README_EN.md)
 
